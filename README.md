@@ -7,7 +7,6 @@ A Maven-based Java project demonstrating Hibernate ORM operations on a `Hospital
 ---
 
 ## 📁 Project Structure
-
 ```
 HospitalHibernate/
 ├── pom.xml
@@ -30,7 +29,7 @@ HospitalHibernate/
 | id          | int    | Auto-generated primary key   |
 | name        | String | Hospital name                |
 | description | String | Hospital description         |
-| date        | Date   | Establishment / record date  |
+| date        | Date   | Record date (auto set)       |
 | status      | String | Active / Inactive            |
 | location    | String | City / address               |
 | contact     | String | Contact number               |
@@ -48,73 +47,47 @@ HospitalHibernate/
 ---
 
 ## 🗄️ Database Setup
-
-Run the following SQL in MySQL before running the project:
-
 ```sql
 CREATE DATABASE fsadexam;
 ```
-
-Hibernate will automatically create/update the `hospital` table via `hbm2ddl.auto=update`.
 
 ---
 
 ## 🚀 Operations Implemented
 
 ### I. Insert a New Record
-A new `Hospital` object is created, populated with data, and persisted to the database using `session.persist()`.
+User enters hospital details and the record is saved to the database automatically.
 
 ### II. View Record by ID
-The inserted record is retrieved from the database using `session.get(Hospital.class, id)` and displayed on the console.
+User enters an ID and the matching hospital record is displayed.
 
 ---
 
 ## 🔧 How to Run
-
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd HospitalHibernate
-   ```
-
-2. **Set up MySQL**
-   ```sql
-   CREATE DATABASE fsadexam;
-   ```
-
-3. **Update credentials in `hibernate.cfg.xml`** (if your MySQL password is different):
-   ```xml
-   <property name="hibernate.connection.username">root</property>
-   <property name="hibernate.connection.password">root</property>
-   ```
-
-4. **Build the project**
-   ```bash
-   mvn clean install
-   ```
-
-5. **Run `ClientDemo.java`** from your IDE (Eclipse / IntelliJ) or via:
-   ```bash
-   mvn exec:java -Dexec.mainClass="com.klef.fsad.exam.ClientDemo"
-   ```
+```bash
+cd HospitalHibernate
+mvn exec:java -Dexec.mainClass="com.klef.fsad.exam.ClientDemo"
+```
 
 ---
 
-## 📋 Expected Output
-
+## ✅ Expected Output
 ```
 ========== INSERT RECORD ==========
-✅ Record Inserted Successfully!
-   Generated ID : 1
-   Name         : Apollo Hospital
-   Status       : Active
+Enter Hospital Name: Apollo Hospital
+Enter Description: Multi-speciality hospital
+Enter Status (Active/Inactive): Active
+Enter Location: Hyderabad, Telangana
+Enter Contact: 9000000001
+✅ Record Inserted! Generated ID: 1
 
 ========== VIEW RECORD BY ID ==========
+Enter ID to search: 1
 ✅ Record Found:
    ID          : 1
    Name        : Apollo Hospital
-   Description : Multi-speciality hospital with advanced medical care
-   Date        : 2025-01-01
+   Description : Multi-speciality hospital
+   Date        : 2026-03-13
    Status      : Active
    Location    : Hyderabad, Telangana
    Contact     : 9000000001
@@ -124,18 +97,10 @@ The inserted record is retrieved from the database using `session.get(Hospital.c
 
 ---
 
-## 📌 Package
-
-```
-com.klef.fsad.exam
-```
-
----
-
 ## 📝 Inference
 
-The Hibernate framework was successfully used to perform database operations using a persistent object. The Hospital entity class was created with attributes such as ID, Name, Description, Date, and Status. The ID was generated automatically using Hibernate annotations.
+Hibernate ORM was used to insert and retrieve hospital records from the database using persistent objects and session management.
 
 ## 📊 Analysis
 
-This experiment demonstrates how Hibernate simplifies database interaction in Java applications using Object Relational Mapping (ORM). Instead of writing SQL queries manually, Hibernate maps Java objects to database tables and performs operations such as insert and retrieve through session methods.
+Hibernate simplifies database interaction by mapping Java objects to relational tables, eliminating the need for manual SQL queries.
