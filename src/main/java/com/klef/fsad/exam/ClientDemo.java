@@ -5,25 +5,17 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.util.Date;
+import java.util.Scanner;
 
-/**
- * ClientDemo - Main class to demonstrate Hibernate operations
- * on the Hospital entity.
- *
- * Operations:
- *   I.  Insert a new Hospital record into the database.
- *   II. View (retrieve) a Hospital record by its ID.
- *
- * @author KLEF FSAD Lab
- */
 public class ClientDemo {
 
     public static void main(String[] args) {
 
-        // ─── Build SessionFactory ──────────────────────────
+        Scanner sc = new Scanner(System.in);
+
         Configuration cfg = new Configuration();
-        cfg.configure("hibernate.cfg.xml");   // loads hibernate.cfg.xml
-        cfg.addAnnotatedClass(Hospital.class); // register entity
+        cfg.configure("hibernate.cfg.xml");
+        cfg.addAnnotatedClass(Hospital.class);
 
         SessionFactory factory = cfg.buildSessionFactory();
 
@@ -32,32 +24,45 @@ public class ClientDemo {
         // ══════════════════════════════════════════════════
         System.out.println("\n========== INSERT RECORD ==========");
 
+        System.out.print("Enter Hospital Name: ");
+        String name = sc.nextLine();
+
+        System.out.print("Enter Description: ");
+        String description = sc.nextLine();
+
+        System.out.print("Enter Status (Active/Inactive): ");
+        String status = sc.nextLine();
+
+        System.out.print("Enter Location: ");
+        String location = sc.nextLine();
+
+        System.out.print("Enter Contact: ");
+        String contact = sc.nextLine();
+
         Session insertSession = factory.openSession();
         insertSession.beginTransaction();
 
         Hospital h = new Hospital();
-        h.setName("Apollo Hospital");
-        h.setDescription("Multi-speciality hospital with advanced medical care");
+        h.setName(name);
+        h.setDescription(description);
         h.setDate(new Date());
-        h.setStatus("Active");
-        h.setLocation("Hyderabad, Telangana");
-        h.setContact("9000000001");
+        h.setStatus(status);
+        h.setLocation(location);
+        h.setContact(contact);
 
         insertSession.persist(h);
         insertSession.getTransaction().commit();
         insertSession.close();
 
-        System.out.println("✅ Record Inserted Successfully!");
-        System.out.println("   Generated ID : " + h.getId());
-        System.out.println("   Name         : " + h.getName());
-        System.out.println("   Status       : " + h.getStatus());
+        System.out.println("✅ Record Inserted! Generated ID: " + h.getId());
 
         // ══════════════════════════════════════════════════
         //  OPERATION II : VIEW RECORD BY ID
         // ══════════════════════════════════════════════════
         System.out.println("\n========== VIEW RECORD BY ID ==========");
 
-        int searchId = h.getId(); // use the auto-generated ID from insert
+        System.out.print("Enter ID to search: ");
+        int searchId = sc.nextInt();
 
         Session viewSession = factory.openSession();
         viewSession.beginTransaction();
@@ -79,9 +84,9 @@ public class ClientDemo {
 
         viewSession.getTransaction().commit();
         viewSession.close();
-
-        // ─── Cleanup ───────────────────────────────────────
         factory.close();
+        sc.close();
+
         System.out.println("\n========== DONE ==========");
     }
 }
